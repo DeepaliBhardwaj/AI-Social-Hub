@@ -15,7 +15,7 @@ export const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         className={cn(
-          "glass-card rounded-xl p-6 relative overflow-hidden",
+          "glass-card p-6 relative overflow-hidden",
           className
         )}
         {...props}

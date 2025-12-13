@@ -24,7 +24,7 @@ export default function Generator() {
           </div>
 
           {generatedContent.length === 0 ? (
-            <div className="h-64 flex flex-col items-center justify-center text-muted-foreground border-2 border-dashed border-primary/20 rounded-xl bg-white/30">
+            <div className="h-64 flex flex-col items-center justify-center text-muted-foreground border-2 border-dashed border-primary/20 rounded-2xl bg-white/60 backdrop-blur-sm">
               <p>No content generated yet.</p>
               <p className="text-sm">Use the form on the left to start.</p>
             </div>

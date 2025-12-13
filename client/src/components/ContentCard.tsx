@@ -55,7 +55,7 @@ export function ContentCard({ content }: { content: GeneratedContent }) {
         </div>
       )}
 
-      <div className="bg-white/40 dark:bg-black/20 p-4 rounded-lg mb-4 text-sm whitespace-pre-wrap font-medium">
+      <div className="bg-violet-50/50 dark:bg-white/5 border border-violet-100/20 p-4 rounded-xl mb-4 text-sm whitespace-pre-wrap font-medium">
         {content.content}
       </div>
 
