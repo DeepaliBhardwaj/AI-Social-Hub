@@ -1,16 +1,23 @@
 import { Switch, Route } from "wouter";
-import { queryClient } from "./lib/queryClient";
-import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import Dashboard from "@/pages/Dashboard";
+import Generator from "@/pages/Generator";
+import Scheduler from "@/pages/Scheduler";
+import Analytics from "@/pages/Analytics";
 import NotFound from "@/pages/not-found";
+import { ThemeProvider } from "@/components/theme-provider";
 
 function Router() {
   return (
     <Switch>
-      {/* Add pages below */}
-      {/* <Route path="/" component={Home}/> */}
-      {/* Fallback to 404 */}
+      <Route path="/" component={Dashboard} />
+      <Route path="/generator" component={Generator} />
+      <Route path="/scheduler" component={Scheduler} />
+      <Route path="/analytics" component={Analytics} />
+      {/* Mocking other routes to Dashboard or Not Found for now */}
+      <Route path="/library" component={Dashboard} /> 
+      <Route path="/profile" component={Dashboard} />
+      
       <Route component={NotFound} />
     </Switch>
   );
@@ -18,12 +25,10 @@ function Router() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Router />
-      </TooltipProvider>
-    </QueryClientProvider>
+    <ThemeProvider defaultTheme="dark" storageKey="socialgen-theme">
+      <Router />
+      <Toaster />
+    </ThemeProvider>
   );
 }
 
