@@ -125,7 +125,7 @@ export function GeneratorForm() {
             <Label>Topic / Prompt</Label>
             <Textarea 
               placeholder="e.g., Launching a new coffee blend called 'Morning Mist'..."
-              className="h-32 resize-none bg-white/50 dark:bg-black/20"
+              className="h-32 resize-none bg-white/80 dark:bg-black/20"
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
             />
