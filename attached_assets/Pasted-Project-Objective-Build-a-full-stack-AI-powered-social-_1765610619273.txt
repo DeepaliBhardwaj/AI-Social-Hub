@@ -1,0 +1,307 @@
+Project Objective
+
+Build a full-stack AI-powered social media content generator platform that helps users create high-quality social media posts, captions, hashtags, content ideas, and schedules posts for multiple platforms using AI.
+
+The app should feel like a real SaaS product used by influencers, marketers, and businesses.
+
+🛠 Mandatory Tech Stack (Do NOT change)
+Frontend
+
+React.js (Vite)
+
+Tailwind CSS
+
+Zustand (State Management)
+
+React Router DOM
+
+Axios
+
+Shadcn/UI components
+
+Framer Motion (for smooth animations)
+
+Backend
+
+Node.js
+
+Express.js
+
+MongoDB + Mongoose
+
+JWT Authentication
+
+bcryptjs
+
+OpenAI API (AI text generation)
+
+Multer (image upload)
+
+Cloudinary (optional)
+
+CORS
+
+dotenv
+
+🔐 Authentication & Authorization
+
+User Register
+
+User Login
+
+Logout
+
+JWT-based protected routes
+
+Password hashing
+
+User profile management
+
+📌 Core Features (Must Implement)
+🧠 1. AI Content Generator
+
+User selects:
+
+Platform (Instagram, Facebook, LinkedIn, Twitter, YouTube)
+
+Content type (Post, Reel Caption, Story, Carousel, Thread)
+
+Tone (Professional, Casual, Funny, Motivational)
+
+Language
+
+Topic / Prompt
+
+AI generates:
+
+Caption
+
+Hashtags
+
+Emoji suggestions
+
+CTA (Call to Action)
+
+🖼 2. Image-to-Caption Generator
+
+User uploads an image
+
+AI generates a suitable caption & hashtags
+
+Preview before saving
+
+📅 3. Post Scheduler
+
+Schedule posts (date & time)
+
+Platform-wise scheduling
+
+Status tracking:
+
+Draft
+
+Scheduled
+
+Posted
+
+Calendar view
+
+(Actual social posting can be mocked)
+
+📊 4. Analytics Dashboard
+
+Total posts created
+
+Platform-wise content usage
+
+Most-used tones
+
+Engagement score (simulated)
+
+Weekly/monthly content chart
+
+🗂 5. Content Library
+
+Save generated posts
+
+Edit or regenerate
+
+Duplicate content
+
+Filter by platform or date
+
+👤 6. User Profile
+
+Profile update
+
+Preferred language & tone
+
+Subscription placeholder (Free / Pro)
+
+🎨 UI / UX Requirements
+
+Modern SaaS dashboard design
+
+Glassmorphism cards
+
+Clean typography
+
+Fully responsive (mobile + desktop)
+
+Dark / Light mode toggle
+
+Smooth transitions
+
+📁 Required Folder Structure
+/client
+ ├─ src
+ │   ├─ components
+ │   │   ├─ Auth
+ │   │   ├─ Generator
+ │   │   ├─ Scheduler
+ │   │   ├─ Analytics
+ │   │   ├─ UI
+ │   ├─ pages
+ │   │   ├─ Login.jsx
+ │   │   ├─ Register.jsx
+ │   │   ├─ Dashboard.jsx
+ │   │   ├─ Generator.jsx
+ │   │   ├─ Scheduler.jsx
+ │   │   ├─ Analytics.jsx
+ │   │   ├─ Profile.jsx
+ │   ├─ store
+ │   │   ├─ authStore.js
+ │   │   ├─ contentStore.js
+ │   ├─ utils
+ │   │   ├─ api.js
+ │   │   ├─ helpers.js
+ │   ├─ App.jsx
+ │   ├─ main.jsx
+ │   ├─ router.jsx
+ └─ index.html
+
+/server
+ ├─ controllers
+ ├─ models
+ ├─ routes
+ ├─ middleware
+ ├─ utils
+ ├─ server.js
+ └─ .env.example
+
+🧾 Database Models
+User
+
+name
+
+email
+
+password
+
+preferredTone
+
+preferredLanguage
+
+createdAt
+
+Content
+
+userId
+
+platform
+
+contentType
+
+caption
+
+hashtags
+
+emojis
+
+imageUrl
+
+status (draft / scheduled / posted)
+
+scheduledAt
+
+createdAt
+
+🔌 API Endpoints
+Auth
+POST /api/auth/register
+POST /api/auth/login
+GET  /api/auth/me
+
+AI Content
+POST /api/ai/generate-content
+POST /api/ai/image-caption
+
+Content Management
+POST /api/content
+GET  /api/content
+PUT  /api/content/:id
+DELETE /api/content/:id
+
+Scheduler
+POST /api/schedule
+GET  /api/schedule
+
+🧠 AI Instructions
+
+Use OpenAI API for content generation
+
+If API key not available, return mock AI responses
+
+AI should generate:
+
+Caption
+
+Hashtags
+
+Emojis
+
+CTA
+
+Responses should be platform-specific
+
+📈 Bonus Features (If Possible)
+
+Trending hashtag suggestions
+
+Brand voice saving
+
+Multi-language support
+
+Copy-to-clipboard button
+
+Export content as PDF
+
+📘 README Must Include
+
+Project overview
+
+Features list
+
+Tech stack
+
+Environment setup
+
+How to run frontend & backend
+
+Sample .env
+
+Screenshots (optional)
+
+Future improvements
+
+🚀 Final Output Expectations
+
+Fully functional frontend & backend
+
+Clean code with comments
+
+Modern UI
+
+AI integration working or mocked
+
+Ready-to-show portfolio project
