@@ -21,20 +21,93 @@ export function GeneratorForm() {
   const [imageFile, setImageFile] = useState<File | null>(null);
 
   const handleGenerate = async () => {
-    if (!topic) {
-      toast({ title: "Topic required", description: "Please enter a topic or prompt.", variant: "destructive" });
+    // Validation
+    if (!topic || topic.trim().length === 0) {
+      toast({ 
+        title: "Topic Required", 
+        description: "Please enter a topic or prompt to generate content.", 
+        variant: "destructive" 
+      });
       return;
     }
-    await generateContent({ platform, type, tone, topic, language });
-    toast({ title: "Content Generated!", description: "Your AI content is ready." });
+
+    if (topic.trim().length < 3) {
+      toast({ 
+        title: "Topic Too Short", 
+        description: "Please enter at least 3 characters for better content generation.", 
+        variant: "destructive" 
+      });
+      return;
+    }
+
+    if (topic.length > 500) {
+      toast({ 
+        title: "Topic Too Long", 
+        description: "Please keep your topic under 500 characters.", 
+        variant: "destructive" 
+      });
+      return;
+    }
+
+    try {
+      await generateContent({ platform, type, tone, topic: topic.trim(), language });
+      toast({ 
+        title: "✨ Content Generated!", 
+        description: `Your ${tone.toLowerCase()} ${type.toLowerCase()} for ${platform} is ready!` 
+      });
+      setTopic(''); // Clear form after successful generation
+    } catch (error) {
+      toast({ 
+        title: "Generation Failed", 
+        description: "Something went wrong. Please try again.", 
+        variant: "destructive" 
+      });
+    }
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
+    
+    if (!file) return;
+
+    // Validation
+    if (!file.type.startsWith('image/')) {
+      toast({ 
+        title: "Invalid File", 
+        description: "Please upload a valid image file (JPG, PNG, GIF, etc.)", 
+        variant: "destructive" 
+      });
+      e.target.value = '';
+      return;
+    }
+
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    if (file.size > maxSize) {
+      toast({ 
+        title: "File Too Large", 
+        description: "Image size should be less than 10MB.", 
+        variant: "destructive" 
+      });
+      e.target.value = '';
+      return;
+    }
+
+    try {
       setImageFile(file);
       await generateImageCaption(file);
-      toast({ title: "Image Analyzed!", description: "Caption generated from your image." });
+      toast({ 
+        title: "📸 Image Analyzed!", 
+        description: "AI-generated caption is ready for your image!" 
+      });
+      setImageFile(null); // Clear after generation
+      e.target.value = '';
+    } catch (error: any) {
+      toast({ 
+        title: "Upload Failed", 
+        description: error.message || "Failed to process image. Please try again.", 
+        variant: "destructive" 
+      });
+      e.target.value = '';
     }
   };
 

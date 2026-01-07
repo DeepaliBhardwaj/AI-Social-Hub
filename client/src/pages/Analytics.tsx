@@ -1,22 +1,58 @@
 import { Layout } from '@/components/Layout';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { useStore } from '@/store/useStore';
 
-const platformData = [
-  { name: 'Instagram', value: 400, color: '#E1306C' },
-  { name: 'LinkedIn', value: 300, color: '#0077B5' },
-  { name: 'Twitter', value: 300, color: '#1DA1F2' },
-  { name: 'Facebook', value: 200, color: '#1877F2' },
-];
+// Platform colors
+const PLATFORM_COLORS: Record<string, string> = {
+  Instagram: '#E1306C',
+  LinkedIn: '#0077B5',
+  Twitter: '#1DA1F2',
+  Facebook: '#1877F2',
+  YouTube: '#FF0000',
+};
 
-const toneData = [
-  { name: 'Professional', value: 45 },
-  { name: 'Casual', value: 30 },
-  { name: 'Funny', value: 15 },
-  { name: 'Motivational', value: 10 },
-];
+// Generate dynamic platform data from actual content
+function generatePlatformData(content: any[]) {
+  if (content.length === 0) {
+    return [{ name: 'No Data', value: 1, color: '#cccccc' }];
+  }
+
+  const platformCounts = content.reduce((acc: any, item) => {
+    acc[item.platform] = (acc[item.platform] || 0) + 1;
+    return acc;
+  }, {});
+
+  return Object.entries(platformCounts).map(([name, value]) => ({
+    name,
+    value,
+    color: PLATFORM_COLORS[name] || '#8b5cf6',
+  }));
+}
+
+// Generate dynamic tone data from actual content
+function generateToneData(content: any[]) {
+  if (content.length === 0) {
+    return [{ name: 'No Data', value: 0 }];
+  }
+
+  // Count by content type as proxy for tone
+  const typeCounts = content.reduce((acc: any, item) => {
+    acc[item.type] = (acc[item.type] || 0) + 1;
+    return acc;
+  }, {});
+
+  return Object.entries(typeCounts).map(([name, value]) => ({
+    name,
+    value,
+  }));
+}
 
 export default function Analytics() {
+  const { generatedContent } = useStore();
+  const platformData = generatePlatformData(generatedContent);
+  const toneData = generateToneData(generatedContent);
+
   return (
     <Layout>
       <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">

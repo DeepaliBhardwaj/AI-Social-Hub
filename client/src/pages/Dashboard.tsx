@@ -7,19 +7,35 @@ import { TrendingUp, Users, Zap, Plus } from 'lucide-react';
 import { Link } from 'wouter';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-const chartData = [
-  { name: 'Mon', posts: 4, engagement: 240 },
-  { name: 'Tue', posts: 3, engagement: 139 },
-  { name: 'Wed', posts: 7, engagement: 980 },
-  { name: 'Thu', posts: 5, engagement: 390 },
-  { name: 'Fri', posts: 8, engagement: 480 },
-  { name: 'Sat', posts: 12, engagement: 880 },
-  { name: 'Sun', posts: 9, engagement: 630 },
-];
+// Generate dynamic chart data based on actual content
+function generateChartData(content: any[]) {
+  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const today = new Date().getDay();
+  
+  if (content.length === 0) {
+    // Empty state - show zeros
+    return days.map(name => ({ name, posts: 0, engagement: 0 }));
+  }
+
+  // Calculate posts per day from actual content
+  const postsPerDay = content.reduce((acc: any, item) => {
+    const day = new Date(item.createdAt).getDay();
+    const dayName = days[day];
+    acc[dayName] = (acc[dayName] || 0) + 1;
+    return acc;
+  }, {});
+
+  return days.map(name => ({
+    name,
+    posts: postsPerDay[name] || 0,
+    engagement: (postsPerDay[name] || 0) * 120, // Simulated engagement
+  }));
+}
 
 export default function Dashboard() {
   const { user, generatedContent } = useStore();
   const recentContent = generatedContent.slice(0, 3);
+  const chartData = generateChartData(generatedContent);
 
   if (!user) {
     return null;
@@ -47,38 +63,42 @@ export default function Dashboard() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <GlassCard gradient className="border-l-4 border-l-primary">
+          <GlassCard gradient className="border-l-4 border-l-primary hover:shadow-lg transition-shadow">
             <div className="flex items-center gap-4">
               <div className="p-3 rounded-xl bg-primary/10 text-primary">
                 <Zap className="w-6 h-6" />
               </div>
               <div>
                 <p className="text-sm text-muted-foreground font-medium">Total Posts</p>
-                <h3 className="text-2xl font-bold">{generatedContent.length}</h3>
+                <h3 className="text-3xl font-bold text-foreground">{generatedContent.length}</h3>
               </div>
             </div>
           </GlassCard>
 
-          <GlassCard className="border-l-4 border-l-blue-500">
+          <GlassCard className="border-l-4 border-l-blue-500 hover:shadow-lg transition-shadow">
             <div className="flex items-center gap-4">
-              <div className="p-3 rounded-xl bg-blue-500/10 text-blue-500">
+              <div className="p-3 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400">
                 <Users className="w-6 h-6" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground font-medium">Total Reach</p>
-                <h3 className="text-2xl font-bold">12.5k</h3>
+                <p className="text-sm text-muted-foreground font-medium">Active Platforms</p>
+                <h3 className="text-3xl font-bold text-foreground">
+                  {new Set(generatedContent.map(c => c.platform)).size || 0}
+                </h3>
               </div>
             </div>
           </GlassCard>
 
-          <GlassCard className="border-l-4 border-l-green-500">
+          <GlassCard className="border-l-4 border-l-green-500 hover:shadow-lg transition-shadow">
             <div className="flex items-center gap-4">
-              <div className="p-3 rounded-xl bg-green-500/10 text-green-500">
+              <div className="p-3 rounded-xl bg-green-500/10 text-green-600 dark:text-green-400">
                 <TrendingUp className="w-6 h-6" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground font-medium">Engagement Rate</p>
-                <h3 className="text-2xl font-bold">4.8%</h3>
+                <p className="text-sm text-muted-foreground font-medium">Scheduled Posts</p>
+                <h3 className="text-3xl font-bold text-foreground">
+                  {generatedContent.filter(c => c.status === 'Scheduled').length}
+                </h3>
               </div>
             </div>
           </GlassCard>

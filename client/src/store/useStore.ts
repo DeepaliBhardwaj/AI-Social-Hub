@@ -61,32 +61,8 @@ function loadContentFromStorage(): GeneratedContent[] {
     console.error('Error loading content from localStorage:', error);
   }
   
-  // Return mock data if nothing in storage
-  return [
-    {
-      id: '1',
-      platform: 'Instagram',
-      type: 'Post',
-      topic: 'Product Launch',
-      content: "🚀 Exciting news! We've just launched our new AI-powered analytics tool. It's never been easier to track your growth. Check it out now! #SocialGen #AI #Growth",
-      hashtags: ['#SocialGen', '#AI', '#TechLaunch', '#Analytics'],
-      emoji: ['🚀', '📈', '🔥'],
-      status: 'Posted',
-      createdAt: addDays(new Date(), -2),
-    },
-    {
-      id: '2',
-      platform: 'LinkedIn',
-      type: 'Post',
-      topic: 'Leadership Tips',
-      content: "True leadership isn't about being in charge. It's about taking care of those in your charge. Here are 3 ways to support your team better this week...",
-      hashtags: ['#Leadership', '#Management', '#Culture'],
-      emoji: ['💼', '🤝'],
-      status: 'Scheduled',
-      scheduledDate: addDays(new Date(), 1),
-      createdAt: addDays(new Date(), -1),
-    },
-  ];
+  // Return empty array - no dummy data!
+  return [];
 }
 
 // Save content to localStorage
@@ -123,14 +99,34 @@ export const useStore = create<AppState>((set, get) => ({
     // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
+    // Generate smart, context-aware content
+    const toneTemplates = {
+      Professional: `${params.topic}\n\nKey insights and professional analysis that demonstrates expertise and value. Perfect for ${params.platform} audience.`,
+      Casual: `Hey there! 👋 Let's talk about ${params.topic}.\n\nHere's what you need to know in a friendly, conversational way.`,
+      Funny: `😂 ${params.topic}? Hold my coffee! ☕\n\nHere's the fun take you didn't know you needed.`,
+      Motivational: `🌟 ${params.topic} 💪\n\nYour journey starts here. Let's make it happen together!`
+    };
+
+    // Platform-specific hashtag generation
+    const platformHashtags: Record<Platform, string[]> = {
+      Instagram: ['#InstaGood', '#PhotoOfTheDay', '#ViralContent', '#ContentCreator'],
+      LinkedIn: ['#LinkedIn', '#Professional', '#CareerGrowth', '#Leadership'],
+      Twitter: ['#Twitter', '#Trending', '#Tech', '#Social'],
+      Facebook: ['#Facebook', '#Community', '#Engagement', '#Social'],
+      YouTube: ['#YouTube', '#Video', '#Content', '#Creator']
+    };
+
+    const topicWords = params.topic.split(' ').slice(0, 3);
+    const customHashtags = topicWords.map(word => `#${word.replace(/[^a-zA-Z0-9]/g, '')}`);
+
     const newContent: GeneratedContent = {
-      id: Math.random().toString(36).substr(2, 9),
+      id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       platform: params.platform,
       type: params.type,
       topic: params.topic,
-      content: `[AI Generated ${params.tone} ${params.type} for ${params.platform} about "${params.topic}"]\n\nHere is some engaging content that your audience will love. It is tailored to match your brand voice and drive engagement. 🚀\n\nThis content is optimized for maximum reach and engagement on ${params.platform}. Feel free to customize it to match your unique style!`,
-      hashtags: ['#AI', '#ContentCreator', `#${params.platform}`, '#Trending', '#SocialMedia'],
-      emoji: ['✨', '🤖', '📱', '🎯'],
+      content: toneTemplates[params.tone],
+      hashtags: [...new Set([...customHashtags, ...platformHashtags[params.platform]])].slice(0, 8),
+      emoji: ['✨', '🚀', '💡', '🎯', '📈'].slice(0, 3),
       status: 'Draft',
       createdAt: new Date(),
     };
@@ -148,14 +144,30 @@ export const useStore = create<AppState>((set, get) => ({
     set({ isGenerating: true });
     await new Promise((resolve) => setTimeout(resolve, 2500));
     
+    // Validate file
+    if (!file.type.startsWith('image/')) {
+      set({ isGenerating: false });
+      throw new Error('Please upload a valid image file');
+    }
+
+    const fileSize = file.size / 1024 / 1024; // Convert to MB
+    if (fileSize > 10) {
+      set({ isGenerating: false });
+      throw new Error('Image size should be less than 10MB');
+    }
+
+    // Smart caption based on image name or generic
+    const fileName = file.name.replace(/\.[^/.]+$/, '').replace(/[_-]/g, ' ');
+    const topic = fileName.length > 3 ? fileName : 'Visual Content';
+
     const newContent: GeneratedContent = {
-      id: Math.random().toString(36).substr(2, 9),
+      id: `img-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       platform: 'Instagram',
       type: 'Post',
-      topic: 'Image Upload',
-      content: "Just captured this amazing moment! 📸 Sometimes you just have to stop and appreciate the view. What's your favorite part of the day? Drop a comment below! 👇",
-      hashtags: ['#PhotoOfTheDay', '#Moments', '#LifeStyle', '#Photography'],
-      emoji: ['📸', '❤️', '🌅', '✨'],
+      topic: `Image: ${topic}`,
+      content: `Capturing moments that matter! 📸\n\n${topic.charAt(0).toUpperCase() + topic.slice(1)} - telling stories through visuals.\n\nWhat do you think? Drop a comment! 👇`,
+      hashtags: ['#Photography', '#VisualContent', '#PhotoOfTheDay', '#Creative', '#InstaGood'],
+      emoji: ['📸', '✨', '🎨', '💫'],
       imageUrl: URL.createObjectURL(file),
       status: 'Draft',
       createdAt: new Date(),
