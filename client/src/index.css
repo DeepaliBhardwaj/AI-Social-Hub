@@ -11,8 +11,9 @@
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
 
-  --color-background: hsl(220 20% 98%); /* Cleaner off-white */
-  --color-foreground: hsl(222 47% 11%); /* Deep dark blue */
+  /* Light Theme */
+  --color-background: hsl(220 20% 98%);
+  --color-foreground: hsl(222 47% 11%);
 
   --color-card: hsl(0 0% 100%);
   --color-card-foreground: hsl(222 47% 11%);
@@ -20,7 +21,7 @@
   --color-popover: hsl(0 0% 100%);
   --color-popover-foreground: hsl(222 47% 11%);
 
-  --color-primary: hsl(262 83% 58%); /* Vibrant Purple */
+  --color-primary: hsl(262 83% 58%);
   --color-primary-foreground: hsl(210 40% 98%);
 
   --color-secondary: hsl(210 40% 96.1%);
@@ -46,23 +47,78 @@
   --color-chart-5: hsl(22 90% 55%);
 }
 
+/* Dark Theme - Beautiful & Modern */
+@custom-variant dark (&:is(.dark *));
+
+@theme dark {
+  --color-background: hsl(240 10% 8%);
+  --color-foreground: hsl(0 0% 98%);
+
+  --color-card: hsl(240 6% 15%);
+  --color-card-foreground: hsl(0 0% 98%);
+
+  --color-popover: hsl(240 6% 15%);
+  --color-popover-foreground: hsl(0 0% 98%);
+
+  --color-primary: hsl(262 83% 58%);
+  --color-primary-foreground: hsl(210 40% 98%);
+
+  --color-secondary: hsl(240 4% 20%);
+  --color-secondary-foreground: hsl(0 0% 98%);
+
+  --color-muted: hsl(240 4% 20%);
+  --color-muted-foreground: hsl(240 5% 65%);
+
+  --color-accent: hsl(240 4% 20%);
+  --color-accent-foreground: hsl(0 0% 98%);
+
+  --color-destructive: hsl(0 62.8% 50.6%);
+  --color-destructive-foreground: hsl(0 0% 98%);
+
+  --color-border: hsl(240 4% 25%);
+  --color-input: hsl(240 4% 25%);
+  --color-ring: hsl(262 83% 58%);
+
+  --color-chart-1: hsl(262 83% 58%);
+  --color-chart-2: hsl(291 64% 52%);
+  --color-chart-3: hsl(199 89% 58%);
+  --color-chart-4: hsl(47 95% 68%);
+  --color-chart-5: hsl(22 90% 65%);
+}
+
 /* Glassmorphism Utilities */
 .glass {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.dark .glass {
+  background: hsl(240 8% 12% / 0.9);
+  border: 1px solid hsl(240 4% 25%);
 }
 
 .glass-dark {
-  background: rgba(17, 24, 39, 0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: hsl(240 8% 12% / 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid hsl(240 4% 25%);
 }
 
 .glass-card {
-  @apply bg-white/90 dark:bg-slate-900/80 backdrop-blur-md border border-white/40 dark:border-white/10 shadow-lg rounded-2xl;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  border-radius: 1rem;
+}
+
+.dark .glass-card {
+  background: hsl(240 6% 15% / 0.95);
+  border: 1px solid hsl(240 4% 25%);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.5);
 }
 
 @layer base {
@@ -71,22 +127,74 @@
   }
   body {
     @apply font-sans antialiased bg-background text-foreground;
-    background-image: 
-      radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
-      radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
-      radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
-    background-attachment: fixed;
-  }
-  
-  /* Override for light mode background to be lighter/softer */
-  :root body {
+    /* Light mode gradient */
     background-image: 
       radial-gradient(at 0% 0%, hsla(262, 83%, 95%, 1) 0, transparent 50%), 
       radial-gradient(at 50% 0%, hsla(210, 100%, 96%, 1) 0, transparent 50%), 
       radial-gradient(at 100% 0%, hsla(300, 100%, 97%, 1) 0, transparent 50%);
+    background-attachment: fixed;
+  }
+  
+  /* Dark mode gradient - more vibrant */
+  .dark body {
+    background-image: 
+      radial-gradient(at 0% 0%, hsla(262, 83%, 12%, 1) 0, transparent 50%), 
+      radial-gradient(at 50% 0%, hsla(210, 50%, 10%, 1) 0, transparent 50%), 
+      radial-gradient(at 100% 0%, hsla(300, 50%, 12%, 1) 0, transparent 50%);
   }
 }
 
 .font-display {
   font-family: var(--font-display);
+}
+
+/* Custom Scrollbar Styles */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.3);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.5);
+}
+
+/* Smooth animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-from-bottom {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+.fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+.slide-in-from-bottom-4 {
+  animation: slide-in-from-bottom 0.3s ease-out;
 }

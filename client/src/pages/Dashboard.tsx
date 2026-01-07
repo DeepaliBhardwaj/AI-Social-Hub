@@ -3,7 +3,7 @@ import { useStore } from '@/store/useStore';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { ContentCard } from '@/components/ContentCard';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, TrendingUp, Users, Zap, Plus } from 'lucide-react';
+import { TrendingUp, Users, Zap, Plus } from 'lucide-react';
 import { Link } from 'wouter';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
@@ -20,6 +20,10 @@ const chartData = [
 export default function Dashboard() {
   const { user, generatedContent } = useStore();
   const recentContent = generatedContent.slice(0, 3);
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <Layout>
@@ -84,12 +88,12 @@ export default function Dashboard() {
         <GlassCard>
           <div className="flex items-center justify-between mb-6">
             <h3 className="font-semibold text-lg">Weekly Engagement</h3>
-            <select className="bg-transparent border border-input rounded-md text-sm p-1">
+            <select className="bg-background/50 border border-input rounded-md text-sm px-3 py-1.5">
               <option>Last 7 days</option>
               <option>Last 30 days</option>
             </select>
           </div>
-          <div className="h-[300px] w-full">
+          <div className="h-[300px] w-full bg-transparent">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={chartData}>
                 <defs>
@@ -98,11 +102,29 @@ export default function Dashboard() {
                     <stop offset="95%" stopColor="hsl(262 83% 58%)" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(0,0,0,0.1)" />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tickMargin={10} fontSize={12} />
-                <YAxis axisLine={false} tickLine={false} fontSize={12} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="currentColor" opacity={0.1} />
+                <XAxis 
+                  dataKey="name" 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tickMargin={10} 
+                  fontSize={12}
+                  stroke="currentColor"
+                />
+                <YAxis 
+                  axisLine={false} 
+                  tickLine={false} 
+                  fontSize={12}
+                  stroke="currentColor"
+                />
                 <Tooltip 
-                  contentStyle={{ backgroundColor: 'rgba(255,255,255,0.9)', borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+                  contentStyle={{ 
+                    backgroundColor: 'hsl(var(--card))', 
+                    borderRadius: '8px', 
+                    border: '1px solid hsl(var(--border))', 
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                    color: 'hsl(var(--foreground))'
+                  }}
                 />
                 <Area 
                   type="monotone" 
@@ -120,11 +142,32 @@ export default function Dashboard() {
         {/* Recent Activity */}
         <div>
           <h3 className="font-display font-semibold text-xl mb-4">Recent Generations</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {recentContent.map((content) => (
-              <ContentCard key={content.id} content={content} />
-            ))}
-          </div>
+          {recentContent.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {recentContent.map((content) => (
+                <ContentCard key={content.id} content={content} />
+              ))}
+            </div>
+          ) : (
+            <GlassCard className="text-center py-12">
+              <div className="flex flex-col items-center gap-4">
+                <div className="p-4 bg-primary/10 rounded-full">
+                  <Plus className="w-8 h-8 text-primary" />
+                </div>
+                <div>
+                  <h4 className="text-lg font-semibold mb-1">No content yet</h4>
+                  <p className="text-muted-foreground text-sm mb-4">
+                    Create your first AI-generated content to get started
+                  </p>
+                  <Link href="/generator">
+                    <Button>
+                      <Plus className="w-4 h-4 mr-2" /> Create Content
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </GlassCard>
+          )}
         </div>
       </div>
     </Layout>

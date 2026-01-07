@@ -23,9 +23,9 @@ export default function Analytics() {
         <h1 className="text-3xl font-display font-bold">Performance Analytics</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <GlassCard title="Content Distribution by Platform">
+          <GlassCard>
             <h3 className="font-semibold mb-6">Platform Distribution</h3>
-            <div className="h-[300px]">
+            <div className="h-[300px] bg-transparent">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -41,22 +41,37 @@ export default function Analytics() {
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
-                  <Tooltip contentStyle={{ borderRadius: '8px', border: 'none' }} />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: 'hsl(var(--card))', 
+                      borderRadius: '8px', 
+                      border: '1px solid hsl(var(--border))',
+                      color: 'hsl(var(--foreground))'
+                    }} 
+                  />
                   <Legend />
                 </PieChart>
               </ResponsiveContainer>
             </div>
           </GlassCard>
 
-          <GlassCard title="Most Used Tones">
+          <GlassCard>
             <h3 className="font-semibold mb-6">Top Content Tones</h3>
-            <div className="h-[300px]">
+            <div className="h-[300px] bg-transparent">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={toneData}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(0,0,0,0.1)" />
-                  <XAxis dataKey="name" axisLine={false} tickLine={false} fontSize={12} />
-                  <YAxis axisLine={false} tickLine={false} fontSize={12} />
-                  <Tooltip cursor={{fill: 'transparent'}} contentStyle={{ borderRadius: '8px', border: 'none' }} />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="currentColor" opacity={0.1} />
+                  <XAxis dataKey="name" axisLine={false} tickLine={false} fontSize={12} stroke="currentColor" />
+                  <YAxis axisLine={false} tickLine={false} fontSize={12} stroke="currentColor" />
+                  <Tooltip 
+                    cursor={{fill: 'transparent'}} 
+                    contentStyle={{ 
+                      backgroundColor: 'hsl(var(--card))', 
+                      borderRadius: '8px', 
+                      border: '1px solid hsl(var(--border))',
+                      color: 'hsl(var(--foreground))'
+                    }} 
+                  />
                   <Bar dataKey="value" fill="hsl(262 83% 58%)" radius={[4, 4, 0, 0]} barSize={40} />
                 </BarChart>
               </ResponsiveContainer>

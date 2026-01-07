@@ -16,14 +16,27 @@ import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ModeToggle } from '@/components/mode-toggle';
+import { logout as authLogout } from '@/lib/auth';
+import { useToast } from '@/hooks/use-toast';
 
 // Import the generated icon
 import appIcon from '@assets/generated_images/socialgen_app_icon.png';
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
   const { user, logout } = useStore();
+  const { toast } = useToast();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const handleLogout = () => {
+    authLogout();
+    logout();
+    toast({
+      title: "Logged out",
+      description: "You have been successfully logged out",
+    });
+    setLocation('/login');
+  };
 
   const navItems = [
     { label: 'Dashboard', icon: LayoutDashboard, href: '/' },
@@ -37,7 +50,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex bg-transparent font-sans text-foreground">
       {/* Sidebar - Desktop */}
-      <aside className="hidden md:flex w-64 flex-col fixed inset-y-0 left-0 glass border-r border-white/20 z-50">
+      <aside className="hidden md:flex w-64 flex-col fixed inset-y-0 left-0 glass border-r border-border z-50">
         <div className="p-6 flex items-center gap-3">
           <img src={appIcon} alt="SocialGen" className="w-8 h-8 rounded-lg shadow-lg" />
           <span className="font-display font-bold text-xl tracking-tight bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
@@ -64,7 +77,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           })}
         </nav>
 
-        <div className="p-4 space-y-2 border-t border-white/20">
+        <div className="p-4 space-y-2 border-t border-border">
           <ModeToggle />
           
           <div className="flex items-center gap-3 px-4 py-3 mb-2">
@@ -74,7 +87,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
             </div>
           </div>
-          <Button variant="ghost" className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10" onClick={logout}>
+          <Button variant="ghost" className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10" onClick={handleLogout}>
             <LogOut className="w-4 h-4 mr-2" />
             Logout
           </Button>
@@ -82,7 +95,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Mobile Header */}
-      <div className="md:hidden fixed top-0 left-0 right-0 h-16 glass z-50 flex items-center justify-between px-4 border-b border-white/20">
+      <div className="md:hidden fixed top-0 left-0 right-0 h-16 glass z-50 flex items-center justify-between px-4 border-b border-border">
         <div className="flex items-center gap-2">
           <img src={appIcon} alt="SocialGen" className="w-8 h-8 rounded-lg" />
           <span className="font-display font-bold text-lg">SocialGen</span>
