@@ -10,10 +10,11 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-7.1-646CFF?style=for-the-badge&logo=vite)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed-Vercel-000000?style=for-the-badge&logo=vercel)](https://ai-social-hub.vercel.app)
 
 Create engaging social media content in seconds with AI-powered tools ✨
 
-[Demo](#-demo) • [Features](#-features) • [Quick Start](#-quick-start) • [Tech Stack](#-tech-stack)
+[Live Demo](https://ai-social-hub.vercel.app) • [Features](#-features) • [Quick Start](#-quick-start) • [Tech Stack](#-tech-stack)
 
 </div>
 
@@ -83,20 +84,32 @@ Create engaging social media content in seconds with AI-powered tools ✨
 
 ## 🎬 Demo
 
-### Light Theme
-![Light Theme Dashboard](attached_assets/screenshots/light-dashboard.png)
+### 🌐 Live Demo
+**Try it now:** [https://ai-social-hub.vercel.app](https://ai-social-hub.vercel.app)
 
-### Dark Theme
-![Dark Theme Analytics](attached_assets/screenshots/dark-analytics.png)
+### Light Theme Dashboard
+![Light Theme Dashboard](client/public/opengraph.jpg)
 
-### Live Demo
-Try it out: [SocialGen AI Demo](#) *(Coming Soon)*
+The app features a beautiful light theme with clean, modern design, smooth animations, and excellent readability.
 
 ---
 
 ## 🚀 Quick Start
 
-### Prerequisites
+### 🌐 Try Live Demo First!
+
+**No installation needed!** Try the app instantly:  
+👉 **[https://ai-social-hub.vercel.app](https://ai-social-hub.vercel.app)**
+
+Just enter any email/password to login and start creating content! 🎉
+
+---
+
+### Local Development Setup
+
+Want to run it locally? Follow these steps:
+
+#### Prerequisites
 
 Make sure you have one of these installed:
 - **Node.js** (v18 or higher)
@@ -309,6 +322,10 @@ This creates an optimized build in the `dist/` folder.
 ### Deploy Options
 
 **Vercel** (Recommended)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/DeepaliB/AI-Social-Hub)
+
+Or manually:
 ```bash
 vercel deploy
 ```
@@ -320,10 +337,11 @@ netlify deploy --prod
 
 **GitHub Pages**
 ```bash
-# Build and deploy to gh-pages branch
 npm run build
-# Follow GitHub Pages setup
+# Deploy the 'dist' folder to GitHub Pages
 ```
+
+**Current Live Demo:** [https://ai-social-hub.vercel.app](https://ai-social-hub.vercel.app)
 
 ---
 
@@ -359,10 +377,9 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 Need help? Have questions?
 
-- 📧 Email: support@socialgen.ai
-- 💬 Discord: [Join our community](#)
-- 🐦 Twitter: [@SocialGenAI](#)
-- 📝 Issues: [GitHub Issues](https://github.com/yourusername/AI-Social-Hub/issues)
+- 🌐 Live Demo: [https://ai-social-hub.vercel.app](https://ai-social-hub.vercel.app)
+- 📝 Issues: [GitHub Issues](https://github.com/DeepaliB/AI-Social-Hub/issues)
+- ⭐ Star the repo if you find it useful!
 
 ---
 
@@ -384,7 +401,7 @@ Need help? Have questions?
 
 ⭐ Star us on GitHub — it motivates us a lot!
 
-[Website](#) • [Documentation](#) • [Blog](#) • [Twitter](#)
+[Live Demo](https://ai-social-hub.vercel.app) • [GitHub](https://github.com/DeepaliB/AI-Social-Hub)
 
 </div>
 
